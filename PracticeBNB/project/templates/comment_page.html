@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comment Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2b80b4; /* Same text color as before */
+            text-shadow: 0px 0px 1px black;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            margin-bottom: 20px;
+        }
+
+        #comment-list-container {
+            position: absolute;
+            top: 130px; /* Adjusted top position for the heading */
+            left: 20px;
+            width: calc(70% - 40px); /* Adjust the width as needed */
+            max-height: calc(100% - 90px); /* Adjusted max height */
+            overflow-y: auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        #comment-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #comment-list li {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        #comment-form-container {
+            position: fixed;
+            bottom: 50px;
+            right: 40px;
+        }
+
+        #comment-form {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        #comment-form textarea {
+            width: 100%;
+            max-width: 700px; /* Adjust the max width as needed */
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+        }
+
+        #comment-form button {
+            display: block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #comment-form button:hover {
+            background-color: #094a5c;
+            box-shadow: black 0px 0px 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Common Discussion Room</h1> <!-- Added heading -->
+    <!-- Comment list -->
+    <div id="comment-list-container">
+        <ul id="comment-list">
+            {% for comment in comments %}
+            <li>{{ comment.user.username }}: {{ comment.content }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Comment form -->
+    <div id="comment-form-container">
+        <form id="comment-form" method="post">
+            {% csrf_token %}
+            <label for="comment-content">Comment:</label><br />
+            <textarea id="comment-content" name="comment-content" rows="4" required></textarea><br />
+            <button type="submit">Submit Comment</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recent Events</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: -10px;
+            color: rgb(37, 111, 139);
+            text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.47);
+            border-bottom: #007bff75 1px solid;
+            margin-left: 10%;
+            margin-right: 10%;
+            padding-bottom: 20px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+
+        .event-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+
+        .event-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: calc(50% - 10px); /* 50% width with some margin in between */
+            max-width: 500px; /* Limiting maximum width */
+            height: 150px; /* Increased height */
+            position: relative; /* Positioning context for the absolute position of the register link */
+        }
+
+        .event-card h3 {
+            color: #007bff;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .event-card p {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .event-card .reg {
+            position: absolute; /* Position the link absolutely within the event card */
+            bottom: 15px; /* Adjust distance from the bottom */
+            right: 15px; /* Adjust distance from the right */
+            color: #fff; /* Text color */
+            background-color: #007bff; /* Button background color */
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            text-decoration: none; /* Remove underline */
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0px 0px 2px black;
+        }
+
+        .event-card .reg:hover {
+            background-color: #0c697b; /* Button background color on hover */
+        }
+    </style>
+</head>
+<body>
+<h1>Upcoming Events</h1>
+<div class="event-container">
+    {% for event in events %}
+    <div class="event-card">
+        <h3>{{ event.title }}</h3>
+        <p><strong>Description:</strong> {{ event.description }}</p>
+        <p><strong>Date:</strong> {{ event.date }}</p>
+        <!-- Align register link/button at bottom-right corner -->
+        <a href="{% url 'register_for_event' event.id %}" class="reg">Register</a>
+    </div>
+    {% endfor %}
+</div>
+</body>
+</html>

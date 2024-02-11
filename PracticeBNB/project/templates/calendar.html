@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calendar</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #calendar-container {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 20px;
+        width: 80%;
+        max-width: 600px;
+        margin-top: 6%;
+        margin-bottom: 6%;
+      }
+
+      #calendar-header {
+        text-align: center;
+        padding: 10px;
+        margin-top: -10px;
+        border-radius: 10px 10px 20px 20px;
+        margin-bottom: 15px;
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+        color: #2d7ba3;
+        text-shadow: 0px 0px 1px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.281);
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th {
+        background-color: #f0f0f0;
+        font-weight: bold;
+        text-align: center;
+        padding: 10px;
+      }
+
+      td {
+        border: 1px solid #ddd;
+        text-align: center;
+        padding: 10px;
+        cursor: pointer;
+        position: relative;
+      }
+
+      td:hover {
+        background-color: #f9f9f9;
+      }
+
+      #event-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 5px;
+        display: none;
+      }
+
+      #event-card h3 {
+        margin-top: 0;
+        text-align: center;
+      }
+
+      #event-card input {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 8px;
+        box-sizing: border-box;
+      }
+
+      #event-card button {
+        background-color: #2d7ba3;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      #event-card button:hover {
+        background-color: #308484;
+      }
+      .h2 {
+        color: #8ea9b6cb;
+        text-shadow: 0px 0px 1px black;
+        text-align: center;
+        font-size: 20px;
+        margin-bottom: 30px;
+      }
+      h2 {
+        text-align: center;
+        color: rgb(11, 70, 106);
+      }
+
+      /* Media Queries */
+      @media screen and (max-width: 768px) {
+        #calendar-container {
+          width: 90%;
+        }
+        .h2 {
+          font-size: 18px;
+        }
+      }
+
+      @media screen and (max-width: 480px) {
+        #calendar-container {
+          width: 95%;
+        }
+        .h2 {
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="calendar-container">
+      <h1 id="calendar-header">Centralised Calendar</h1>
+      <h2 class="h2">Add Events to Your Google Calendar</h2>
+      <div id="calendar"></div>
+
+      <div id="event-card">
+        <h3>Add Event</h3>
+        <input type="text" id="event-title-input" placeholder="Title" />
+        <input type="text" id="event-details-input" placeholder="Details" />
+        <input type="text" id="event-time-input" placeholder="Time" />
+        <button id="add-event-btn">Add Event</button>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const calendarElement = document.getElementById("calendar");
+        const eventCard = document.getElementById("event-card");
+        const eventTitleInput = document.getElementById("event-title-input");
+        const eventDetailsInput = document.getElementById(
+          "event-details-input"
+        );
+        const eventTimeInput = document.getElementById("event-time-input");
+
+        function createCalendar(element, date) {
+          const options = {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          };
+          const monthYear = date.toLocaleDateString("en-US", {
+            month: "long",
+            year: "numeric",
+          });
+          const month = date.getMonth();
+          const year = date.getFullYear();
+
+          let calendarHTML = `
+          <h2>${monthYear}</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Sun</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+              </tr>
+            </thead>
+            <tbody id="calendar-body">
+        `;
+
+          const firstDayOfMonth = new Date(year, month, 1).getDay();
+          const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
+          let day = 1;
+
+          for (let i = 0; i < 6; i++) {
+            calendarHTML += "<tr>";
+
+            for (let j = 0; j < 7; j++) {
+              if (i === 0 && j < firstDayOfMonth) {
+                calendarHTML += "<td></td>";
+              } else if (day > lastDayOfMonth) {
+                break;
+              } else {
+                calendarHTML += `<td class="day" data-date="${year}-${
+                  month + 1
+                }-${day}">${day}</td>`;
+                day++;
+              }
+            }
+
+            calendarHTML += "</tr>";
+          }
+
+          calendarHTML += "</tbody></table>";
+          element.innerHTML = calendarHTML;
+        }
+
+        createCalendar(calendarElement, new Date());
+
+        function handleDayClick(event) {
+          const selectedDate = event.target.getAttribute("data-date");
+          if (selectedDate) {
+            eventCard.style.display = "block";
+            eventCard.dataset.date = selectedDate;
+          }
+        }
+
+        function addEventToGoogleCalendar(title, details, time, date) {
+          // Redirect to Google Calendar with pre-filled event details
+          const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${date}/${date}`;
+          window.open(url, "_blank");
+        }
+
+        function handleAddEventBtnClick() {
+          const title = eventTitleInput.value;
+          const details = eventDetailsInput.value;
+          const time = eventTimeInput.value;
+          const date = eventCard.dataset.date;
+          addEventToGoogleCalendar(title, details, time, date);
+          eventCard.style.display = "none";
+        }
+
+        calendarElement.addEventListener("click", handleDayClick);
+        document
+          .getElementById("add-event-btn")
+          .addEventListener("click", handleAddEventBtnClick);
+      });
+    </script>
+  </body>
+  
+</html>

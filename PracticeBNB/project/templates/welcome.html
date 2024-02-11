@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connect_all</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden; /* Prevent horizontal scrolling */
+      }
+
+      .connect-all-text {
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 160px;
+        font-weight: bold;
+        color: #2d7ba3;
+        text-shadow: 0px 1px 2px black;
+        opacity: 0;
+        animation: fadeIn 6s ease-in-out forwards; /* Animation to fade in */
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+      }
+
+      .line {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        border-bottom: 2px solid #052648;
+        border-radius: 50%;
+      }
+
+      .login-section,
+      .signup-section {
+        position: absolute;
+        top: 64%;
+        width: 45%;
+        text-align: center;
+      }
+
+      .login-section {
+        left: 5%;
+      }
+
+      .signup-section {
+        right: 5%;
+      }
+
+      .login-section p,
+      .signup-section p {
+        margin: 20px 0;
+        font-size: 30px;
+        font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+        color: rgb(43, 112, 161);
+        text-shadow: 0px 0px 1px black;
+      }
+
+      .login-button,
+      .signup-button {
+        padding: 10px 20px;
+        background-color: #2d7ba3;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+
+      .login-button:hover,
+      .signup-button:hover {
+        background-color: #308484;
+        box-shadow: black 0px 0px 4px;
+      }
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="connect-all-text">ConnecTall</div>
+    <div class="line"></div>
+    <div class="login-section">
+      <p>Already have an account?</p>
+      <a href="{% url 'login' %}" class="login-button">Login</a>
+    </div>
+    <div class="signup-section">
+      <p>Create a new account!</p>
+      <a href="{% url 'signup' %}" class="signup-button">Sign Up</a>
+    </div>
+
+    {% comment %} <script>
+      setTimeout(function () {
+        window.location.href = "{% url 'signup' %}";
+      }, 10000);
+    </script>  {% endcomment %}
+  </body>
+</html>
